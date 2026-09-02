@@ -79,7 +79,7 @@ $config['environment'] = getenv('APP_ENV') ?: 'development';
 | WARNING: You MUST set this value!
 |
 */
-$config['base_url'] 				= 'http://localhost/LavaLust-dev-v777/LavaLust-dev-v4/';
+$config['base_url'] 				= 'https://dimalibot-andyella-lavalust-aiven.onrender.com';
 
 /*
 |--------------------------------------------------------------------------
