@@ -52,10 +52,15 @@
             </p>
         </div>
 
-        <a href="<?= site_url('products/create') ?>"
-           class="btn btn-primary">
-            Add Product
-        </a>
+                <?php if ($role === 'admin'): ?>
+
+            <a
+                href="<?= site_url('products/create') ?>"
+                class="btn btn-primary">
+                + Add Product
+            </a>
+
+        <?php endif; ?>
 
     </div>
 
@@ -81,50 +86,28 @@
 
                         <tbody>
 
-                        <?php foreach ($products as $p): ?>
+                            <?php if ($role === 'admin'): ?>
 
-                            <tr>
+                                <a
+                                    href="<?= site_url('products/edit/' . $p['id']) ?>"
+                                    class="action-link">
+                                    Edit
+                                </a>
 
-                                <td>
-                                    <?= html_escape($p['product_name']) ?>
-                                </td>
+                                <a
+                                    href="<?= site_url('products/delete/' . $p['id']) ?>"
+                                    class="action-link delete"
+                                    onclick="return confirm('Delete this product?');">
+                                    Delete
+                                </a>
 
-                                <td>
-                                    <?= html_escape($p['description']) ?>
-                                </td>
+                            <?php else: ?>
 
-                                <td>
-                                    ₱<?= number_format((float) $p['price'], 2) ?>
-                                </td>
+                                <span class="read-only">
+                                    View only
+                                </span>
 
-                                <td>
-                                    <?= html_escape($p['quantity']) ?>
-                                </td>
-
-                                <td>
-
-                                    <div class="actions">
-
-                                        <a
-                                            href="<?= site_url('products/edit/' . $p['id']) ?>"
-                                            class="action-link">
-                                            Edit
-                                        </a>
-
-                                        <a
-                                            href="<?= site_url('products/delete/' . $p['id']) ?>"
-                                            class="action-link delete"
-                                            onclick="return confirm('Delete this product?');">
-                                            Delete
-                                        </a>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-                        <?php endforeach; ?>
+                         <?php endif; ?>
 
                     </tbody>
 

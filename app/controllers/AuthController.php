@@ -1,10 +1,13 @@
 <?php
 
+defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
+
 class AuthController extends Controller
 {
     public function __construct()
     {
         parent::__construct();
+
         $this->call->library('auth');
     }
 
@@ -12,18 +15,42 @@ class AuthController extends Controller
     {
         if ($this->io->method() == 'post') {
 
-            $username = $this->io->post('username');
+            $username = trim(
+                $this->io->post('username')
+            );
+
             $password = $this->io->post('password');
 
+            if ($username == '' || $password == '') {
+
+                $data['error'] = 'Username and password are required.';
+
+                $this->call->view(
+                    'auth/login',
+                    $data
+                );
+
+                return;
+            }
+
             if ($this->auth->login($username, $password)) {
+
                 redirect('products');
+
+                return;
             }
 
             $data['error'] = 'Invalid username or password.';
-            $this->call->view('auth/login', $data);
+
+            $this->call->view(
+                'auth/login',
+                $data
+            );
 
         } else {
+
             $this->call->view('auth/login');
+
         }
     }
 
@@ -31,19 +58,47 @@ class AuthController extends Controller
     {
         if ($this->io->method() == 'post') {
 
-            $username = trim($this->io->post('username'));
+            $username = trim(
+                $this->io->post('username')
+            );
+
             $password = $this->io->post('password');
+
             $confirm_password = $this->io->post('confirm_password');
 
-            if ($username == '' || $password == '') {
-                $data['error'] = 'Username and password are required.';
-                $this->call->view('auth/signup', $data);
+            if ($username == '') {
+
+                $data['error'] = 'Username is required.';
+
+                $this->call->view(
+                    'auth/signup',
+                    $data
+                );
+
+                return;
+            }
+
+            if ($password == '') {
+
+                $data['error'] = 'Password is required.';
+
+                $this->call->view(
+                    'auth/signup',
+                    $data
+                );
+
                 return;
             }
 
             if ($password !== $confirm_password) {
+
                 $data['error'] = 'Passwords do not match.';
-                $this->call->view('auth/signup', $data);
+
+                $this->call->view(
+                    'auth/signup',
+                    $data
+                );
+
                 return;
             }
 
@@ -55,8 +110,14 @@ class AuthController extends Controller
                 ->get();
 
             if ($existing) {
+
                 $data['error'] = 'Username already exists.';
-                $this->call->view('auth/signup', $data);
+
+                $this->call->view(
+                    'auth/signup',
+                    $data
+                );
+
                 return;
             }
 
@@ -64,19 +125,26 @@ class AuthController extends Controller
                 ->table('users')
                 ->insert([
                     'username' => $username,
-                    'password' => password_hash($password, PASSWORD_DEFAULT)
+                    'password' => password_hash(
+                        $password,
+                        PASSWORD_DEFAULT
+                    ),
+                    'role' => 'user'
                 ]);
 
             redirect('auth/login');
 
         } else {
+
             $this->call->view('auth/signup');
+
         }
     }
 
     public function logout()
     {
         $this->auth->logout();
+
         redirect('auth/login');
     }
 }

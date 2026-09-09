@@ -1,7 +1,10 @@
 <?php
+
+defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
+
 class ProductController extends Controller
 {
-        public function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -9,55 +12,118 @@ class ProductController extends Controller
         $this->call->library('session');
     }
 
-        public function index()
+    private function require_admin()
+    {
+        $role = $this->session->userdata('role');
+
+        if ($role !== 'admin') {
+            redirect('products');
+            exit;
+        }
+    }
+
+    public function index()
     {
         $data['products'] = $this->ProductModel->get_all_products();
         $data['username'] = $this->session->userdata('username');
+        $data['role'] = $this->session->userdata('role');
 
         $this->call->view('products/index', $data);
     }
 
-        public function create()
+    public function create()
     {
+        $this->require_admin();
+
         if ($this->io->method() == 'post') {
+
             $this->ProductModel->create_product([
-                'product_name' => filter_io('string', $this->io->post('product_name')),
-                'description'  => filter_io('string', $this->io->post('description')),
-                'price'        => filter_io('float', $this->io->post('price')),
-                'quantity'     => filter_io('int', $this->io->post('quantity')),
-                'created_at'   => date('Y-m-d H:i:s'),
+                'product_name' => filter_io(
+                    'string',
+                    $this->io->post('product_name')
+                ),
+
+                'description' => filter_io(
+                    'string',
+                    $this->io->post('description')
+                ),
+
+                'price' => filter_io(
+                    'float',
+                    $this->io->post('price')
+                ),
+
+                'quantity' => filter_io(
+                    'int',
+                    $this->io->post('quantity')
+                ),
+
+                'created_at' => date('Y-m-d H:i:s')
             ]);
 
             redirect('products');
-        } else {
-            $data['username'] = $this->session->userdata('username');
 
-            $this->call->view('products/create', $data);
+        } else {
+
+            $data['username'] = $this->session->userdata('username');
+            $data['role'] = $this->session->userdata('role');
+
+            $this->call->view(
+                'products/create',
+                $data
+            );
         }
     }
 
-        public function edit($id)
+    public function edit($id)
     {
+        $this->require_admin();
+
         if ($this->io->method() == 'post') {
+
             $this->ProductModel->update_product($id, [
-                'product_name' => filter_io('string', $this->io->post('product_name')),
-                'description'  => filter_io('string', $this->io->post('description')),
-                'price'        => filter_io('float', $this->io->post('price')),
-                'quantity'     => filter_io('int', $this->io->post('quantity')),
+                'product_name' => filter_io(
+                    'string',
+                    $this->io->post('product_name')
+                ),
+
+                'description' => filter_io(
+                    'string',
+                    $this->io->post('description')
+                ),
+
+                'price' => filter_io(
+                    'float',
+                    $this->io->post('price')
+                ),
+
+                'quantity' => filter_io(
+                    'int',
+                    $this->io->post('quantity')
+                )
             ]);
 
             redirect('products');
+
         } else {
+
             $data['product'] = $this->ProductModel->get_product($id);
             $data['username'] = $this->session->userdata('username');
+            $data['role'] = $this->session->userdata('role');
 
-            $this->call->view('products/edit', $data);
+            $this->call->view(
+                'products/edit',
+                $data
+            );
         }
     }
 
     public function delete($id)
     {
+        $this->require_admin();
+
         $this->ProductModel->delete_product($id);
+
         redirect('products');
     }
 }
