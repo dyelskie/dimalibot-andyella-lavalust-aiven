@@ -44,7 +44,15 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 */
 /** @var object $router **/
 
+
 $router->get('/', 'Welcome::index');
+
+
+/*
+|--------------------------------------------------------------------------
+| Authentication Routes
+|--------------------------------------------------------------------------
+*/
 
 $router->get('/auth/login', 'AuthController::login');
 $router->post('/auth/login', 'AuthController::login');
@@ -54,11 +62,29 @@ $router->post('/auth/signup', 'AuthController::signup');
 
 $router->get('/auth/logout', 'AuthController::logout');
 
-$router->get('/products', 'ProductController::index');
-$router->get('/products/create', 'ProductController::create');
-$router->post('/products/create', 'ProductController::create');
 
-$router->get('/products/edit/{id}', 'ProductController::edit');
-$router->post('/products/edit/{id}', 'ProductController::edit');
+/*
+|--------------------------------------------------------------------------
+| Protected Product Routes
+|--------------------------------------------------------------------------
+*/
 
-$router->get('/products/delete/{id}', 'ProductController::delete');
+$router->group(
+    [
+        'prefix' => '/products',
+        'middleware' => 'auth'
+    ],
+    function ($router) {
+
+        $router->get('/', 'ProductController::index');
+
+        $router->get('/create', 'ProductController::create');
+        $router->post('/create', 'ProductController::create');
+
+        $router->get('/edit/{id}', 'ProductController::edit');
+        $router->post('/edit/{id}', 'ProductController::edit');
+
+        $router->get('/delete/{id}', 'ProductController::delete');
+
+    }
+);
