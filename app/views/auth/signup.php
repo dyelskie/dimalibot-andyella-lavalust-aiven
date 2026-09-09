@@ -42,21 +42,6 @@
                 >
             </div>
 
-            <div class="form-group">
-                <label for="email">
-                    Email
-                </label>
-
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    class="form-control"
-                    placeholder="Enter your email"
-                    required
-                    autocomplete="email"
-                >
-            </div>
 
             <div class="form-group">
                 <label for="password">
