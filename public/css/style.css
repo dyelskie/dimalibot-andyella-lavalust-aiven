@@ -85,28 +85,23 @@ a {
 }
 
 .btn {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    border-radius: 12px;
-    padding: 13px 18px;
-    font-size: 15px;
-    font-weight: 600;
+    display: inline-block;
+    padding: 10px 16px;
+    border: 0;
+    border-radius: 6px;
+    text-decoration: none;
     cursor: pointer;
-    transition: 0.2s ease;
+    font-weight: 600;
 }
 
 .btn-primary {
-    width: 100%;
-    background: #007aff;
-    color: #ffffff;
+    color: #fff;
+    background-color: #e63946;
 }
 
 .btn-primary:hover {
-    background: #006ee6;
+    background-color: #c92f3b;
 }
-
 .btn-secondary {
     background: #e5e5ea;
     color: #1d1d1f;
