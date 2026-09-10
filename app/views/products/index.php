@@ -52,13 +52,7 @@
             </p>
         </div>
 
-                <?php if ($role === 'admin'): ?>
-
-                <a href="<?= site_url('products/create') ?>" 
-                class="btn btn-primary">Add Product
-        </a>
-
-        <?php endif; ?>
+                
 
     </div>
 
@@ -123,12 +117,13 @@
 
                 <br>
 
-                <a
-                    href="<?= site_url('products/create') ?>"
-                    class="btn btn-primary">
-                    Add Your First Product
+                <?php if ($role === 'admin'): ?>
+
+                <a href="<?= site_url('products/create') ?>" 
+                class="btn btn-primary">Add Product
                 </a>
 
+                <?php endif; ?>
             </div>
 
         <?php endif; ?>
