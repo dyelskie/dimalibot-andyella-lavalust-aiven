@@ -21,7 +21,7 @@ class ProductModel extends Model
         return $this->find($id);
     }
 
-    public function create_product($data)
+    public function add_product($data)
     {
         return $this->insert($data);
     }
