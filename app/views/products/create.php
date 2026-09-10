@@ -46,98 +46,76 @@
             Add Product
         </h1>
 
-        <form
-            method="post"
-            action="<?= site_url('products/create') ?>">
+            <form method="post" action="<?= site_url('products/create') ?>">
 
-            <div class="form-group">
+                <div class="form-group">
+                    <label for="product_name">Product Name</label>
 
-                <label for="product_name">
-                    Product Name
-                </label>
+                    <input
+                        type="text"
+                        id="product_name"
+                        name="product_name"
+                        class="form-control"
+                        required
+                    >
+                </div>
 
-                <input
-                    type="text"
-                    id="product_name"
-                    name="product_name"
-                    class="form-control"
-                    placeholder="Enter product name"
-                    required
-                >
+                <div class="form-group">
+                    <label for="description">Description</label>
 
-            </div>
+                    <textarea
+                        id="description"
+                        name="description"
+                        class="form-control"
+                        rows="5"
+                        required
+                    ></textarea>
+                </div>
 
-            <div class="form-group">
+                <div class="form-group">
+                    <label for="price">Price</label>
 
-                <label for="description">
-                    Description
-                </label>
+                    <input
+                        type="number"
+                        id="price"
+                        name="price"
+                        class="form-control"
+                        step="0.01"
+                        min="0"
+                        required
+                    >
+                </div>
 
-                <textarea
-                    id="description"
-                    name="description"
-                    class="form-control"
-                    placeholder="Enter product description"
-                    rows="5"
-                    required
-                ></textarea>
+                <div class="form-group">
+                    <label for="quantity">Quantity</label>
 
-            </div>
+                    <input
+                        type="number"
+                        id="quantity"
+                        name="quantity"
+                        class="form-control"
+                        min="0"
+                        required
+                    >
+                </div>
 
-            <div class="form-group">
+                <div class="form-actions">
 
-                <label for="price">
-                    Price
-                </label>
+                    <a
+                        href="<?= site_url('products') ?>"
+                        class="btn btn-secondary">
+                        Cancel
+                    </a>
 
-                <input
-                    type="number"
-                    id="price"
-                    name="price"
-                    class="form-control"
-                    placeholder="0.00"
-                    step="0.01"
-                    min="0"
-                    required
-                >
+                    <button
+                        type="submit"
+                        class="btn btn-primary">
+                        Create Product
+                    </button>
 
-            </div>
+                </div>
 
-            <div class="form-group">
-
-                <label for="quantity">
-                    Quantity
-                </label>
-
-                <input
-                    type="number"
-                    id="quantity"
-                    name="quantity"
-                    class="form-control"
-                    placeholder="0"
-                    min="0"
-                    required
-                >
-
-            </div>
-
-            <div class="form-actions">
-
-                <a
-                    href="<?= site_url('products') ?>"
-                    class="btn btn-secondary">
-                    Cancel
-                </a>
-
-                <button
-                    type="submit"
-                    class="btn btn-primary">
-                    Create Product
-                </button>
-
-            </div>
-
-        </form>
+            </form>
 
     </div>
 

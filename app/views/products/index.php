@@ -54,11 +54,9 @@
 
                 <?php if ($role === 'admin'): ?>
 
-            <a
-                href="<?= site_url('products/create') ?>"
-                class="btn btn-primary">
-                + Add Product
-            </a>
+                <a href="<?= site_url('products/create') ?>" 
+                class="btn btn-primary">Add Product
+        </a>
 
         <?php endif; ?>
 

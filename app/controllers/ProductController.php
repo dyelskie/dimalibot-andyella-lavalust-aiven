@@ -12,16 +12,6 @@ class ProductController extends Controller
         $this->call->library('session');
     }
 
-    private function require_admin()
-    {
-        $role = $this->session->userdata('role');
-
-        if ($role !== 'admin') {
-            redirect('products');
-            exit;
-        }
-    }
-
     public function index()
     {
         $data['products'] = $this->ProductModel->get_all_products();
@@ -31,48 +21,38 @@ class ProductController extends Controller
         $this->call->view('products/index', $data);
     }
 
+   private function require_admin()
+{
+    $role = strtolower(trim((string) $this->session->userdata('role')));
+
+    if ($role !== 'admin') {
+        redirect('products');
+        exit;
+    }
+}
+
     public function create()
     {
         $this->require_admin();
 
-        if ($this->io->method() == 'post') {
+        if ($this->io->method() === 'post') {
+            $data = [
+                'product_name' => filter_io('string', $this->io->post('product_name')),
+                'description'  => filter_io('string', $this->io->post('description')),
+                'price'        => filter_io('float', $this->io->post('price')),
+                'quantity'     => filter_io('int', $this->io->post('quantity'))
+            ];
 
-            $this->ProductModel->create_product([
-                'product_name' => filter_io(
-                    'string',
-                    $this->io->post('product_name')
-                ),
-
-                'description' => filter_io(
-                    'string',
-                    $this->io->post('description')
-                ),
-
-                'price' => filter_io(
-                    'float',
-                    $this->io->post('price')
-                ),
-
-                'quantity' => filter_io(
-                    'int',
-                    $this->io->post('quantity')
-                ),
-
-                'created_at' => date('Y-m-d H:i:s')
-            ]);
+            $this->ProductModel->add_product($data);
 
             redirect('products');
-
-        } else {
-
-            $data['username'] = $this->session->userdata('username');
-            $data['role'] = $this->session->userdata('role');
-
-            $this->call->view(
-                'products/create',
-                $data
-            );
+            exit;
         }
+
+        $data['username'] = $this->session->userdata('username');
+        $data['role'] = $this->session->userdata('role');
+
+        $this->call->view('products/create', $data);
     }
 
     public function edit($id)
