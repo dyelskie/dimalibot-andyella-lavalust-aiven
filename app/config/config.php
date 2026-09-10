@@ -79,7 +79,7 @@ $config['environment'] = getenv('APP_ENV') ?: 'development';
 | WARNING: You MUST set this value!
 |
 */
-$config['base_url'] 				= 'https://dimalibot-andyella-product-crud.onrender.comgit';
+$config['base_url'] 				= 'https://dimalibot-andyella-product-crud.onrender.com';
 
 /*
 |--------------------------------------------------------------------------
