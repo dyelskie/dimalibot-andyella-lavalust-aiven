@@ -43,14 +43,16 @@
     <div class="page-header">
 
         <div>
-            <h1 class="page-title">
-                Products
-            </h1>
-
-            <p class="subtitle">
-                Manage your products
-            </p>
+            <h1 class="page-title">Products</h1>
+            <p class="subtitle">Manage your products</p>
         </div>
+
+        <?php if ($role === 'admin'): ?>
+            <a href="<?= site_url('products/create') ?>"
+               class="btn btn-primary">
+                Add Product
+            </a>
+        <?php endif; ?>
 
                 
 
@@ -77,30 +79,28 @@
                     </thead>
 
                         <tbody>
+                        <?php foreach ($products as $p): ?>
+                            <tr>
+                                <td><?= html_escape($p['product_name']) ?></td>
+                                <td><?= html_escape($p['description']) ?></td>
+                                <td><?= html_escape($p['price']) ?></td>
+                                <td><?= html_escape($p['quantity']) ?></td>
+                                <td>
+                                    <?php if ($role === 'admin'): ?>
+                                        <a href="<?= site_url('products/edit/' . $p['id']) ?>"
+                                           class="action-link">Edit</a>
 
-                            <?php if ($role === 'admin'): ?>
-
-                                <a
-                                    href="<?= site_url('products/edit/' . $p['id']) ?>"
-                                    class="action-link">
-                                    Edit
-                                </a>
-
-                                <a
-                                    href="<?= site_url('products/delete/' . $p['id']) ?>"
-                                    class="action-link delete"
-                                    onclick="return confirm('Delete this product?');">
-                                    Delete
-                                </a>
-
-                            <?php else: ?>
-
-                                <span class="read-only">
-                                    View only
-                                </span>
-
-                         <?php endif; ?>
-
+                                        <a href="<?= site_url('products/delete/' . $p['id']) ?>"
+                                           class="action-link delete"
+                                           onclick="return confirm('Delete this product?');">
+                                            Delete
+                                        </a>
+                                    <?php else: ?>
+                                        <span class="read-only">View only</span>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
 
                 </table>
