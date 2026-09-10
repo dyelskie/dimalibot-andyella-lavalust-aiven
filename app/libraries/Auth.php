@@ -23,6 +23,7 @@ class Auth
             $this->_lava->session->set_userdata([
                 'user_id'   => $user['id'],
                 'username'  => $user['username'],
+                'role'      => $user['role'],
                 'logged_in' => true
             ]);
 
@@ -42,6 +43,7 @@ class Auth
         $this->_lava->session->unset_userdata([
             'user_id',
             'username',
+            'role',
             'logged_in'
         ]);
     }
